@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"net/http"
-	"server/models"
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
@@ -22,7 +21,7 @@ func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
 
 	app.logger.Println(id)
 
-	movie := models.Movie {}
+	movie, err := app.models.DB.Get(id)
 
 	err = app.writeJSON(w, http.StatusOK, movie, "movie")
 }
