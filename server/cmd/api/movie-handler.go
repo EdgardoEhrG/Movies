@@ -19,8 +19,6 @@ func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.logger.Println(id)
-
 	movie, err := app.models.DB.Get(id)
 
 	if err != nil {
@@ -50,3 +48,11 @@ func (app *application) getAllMovies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (app *application) deleteMovie(w http.ResponseWriter, r *http.Request) {}
+
+func (app *application) addMovie(w http.ResponseWriter, r *http.Request) {}
+
+func (app *application) updateMovie(w http.ResponseWriter, r *http.Request) {}
+
+func (app *application) searchMovies(w http.ResponseWriter, r *http.Request) {}
