@@ -11,3 +11,5 @@
 ## Useful elements
 
 - [ ] SQL requests
+- [ ] Go routes
+- [ ] CRUD operations
