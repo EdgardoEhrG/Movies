@@ -5,7 +5,7 @@ import Movies from "./components/Movies/Movies";
 import Movie from "./components/Movies/Movie";
 import Admin from "./components/Admin/Admin";
 import Home from "./components/Home/Home";
-import Categories from "./components/Categories/Categories";
+import Genres from "./components/Genres/Genres";
 import Navigation from "./components/Navigation/Navigation";
 
 import "./App.scss";
@@ -26,7 +26,7 @@ const App = () => {
             <Switch>
               <Route path="/movies" component={Movies} />
               <Route path="/movies/:id" component={Movie} />
-              <Route exact path="/by-category" component={Categories} />
+              <Route path="/genres" component={Genres} />
               <Route path="/admin" component={Admin} />
               <Route path="/" component={Home} />
             </Switch>
