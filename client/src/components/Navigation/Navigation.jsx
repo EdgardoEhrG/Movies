@@ -6,6 +6,7 @@ const links = [
   { title: "Movies", path: "/movies" },
   { title: "Genres", path: "/genres" },
   { title: "Admin", path: "/admin" },
+  { title: "Add movie", path: "/admin/add" },
 ];
 
 const Navigation = () => {

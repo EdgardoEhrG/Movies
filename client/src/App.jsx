@@ -7,6 +7,7 @@ import Admin from "./components/Admin/Admin";
 import Home from "./components/Home/Home";
 import Genres from "./components/Genres/Genres";
 import Genre from "./components/Genres/Genre";
+import EditMovie from "./components/Movies/EditMovie";
 import Navigation from "./components/Navigation/Navigation";
 
 import "./App.scss";
@@ -25,12 +26,14 @@ const App = () => {
           </div>
           <div className="col-md-10">
             <Switch>
-              <Route path="/movies" component={Movies} />
-              <Route path="/movies/:id" component={Movie} />
-              <Route path="/genres" component={Genres} />
-              <Route path="/genre/:id" component={Genre} />
-              <Route path="/admin" component={Admin} />
-              <Route path="/" component={Home} />
+              <Route exact path="/movies" component={Movies} />
+              <Route exact path="/movies/:id" component={Movie} />
+              <Route exact path="/genres" component={Genres} />
+              <Route exact path="/genre/:id" component={Genre} />
+              <Route exact path="/admin" component={Admin} />
+              <Route exact path="/admin/add" component={EditMovie} />
+              <Route exact path="/admin/movie/:id" component={EditMovie} />
+              <Route exact path="/" component={Home} />
             </Switch>
           </div>
         </div>
