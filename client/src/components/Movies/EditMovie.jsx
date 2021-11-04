@@ -29,6 +29,7 @@ const EditMovie = () => {
   });
   const [isLoaded, setLoaded] = useState(true);
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -57,10 +58,18 @@ const EditMovie = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (movie.title === "") {
+      setErrors((arr) => [...errors, "title"]);
+    }
+
     const data = new FormData(e.target);
     const payload = JSON.stringify(Object.fromEntries(data.entries()));
 
     await axios.post("http://localhost:4000/v1/admin/editMovie", payload);
+  };
+
+  const hasError = (key) => {
+    return errors.indexOf(key) !== -1;
   };
 
   return (
@@ -71,11 +80,14 @@ const EditMovie = () => {
       <hr />
       <form>
         <CustomInput
+          className={hasError("title") ? "is-invalid" : ""}
           name="title"
           title="Title"
           type="text"
           value={movie.title}
           handleChange={handleChange}
+          errDiv={hasError("title") ? "text-danger" : "d-none"}
+          errMsg={"Please enter a title"}
         />
         <CustomInput
           name="release_date"
