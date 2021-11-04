@@ -6,6 +6,7 @@ import Movie from "./components/Movies/Movie";
 import Admin from "./components/Admin/Admin";
 import Home from "./components/Home/Home";
 import Genres from "./components/Genres/Genres";
+import Genre from "./components/Genres/Genre";
 import Navigation from "./components/Navigation/Navigation";
 
 import "./App.scss";
@@ -27,6 +28,7 @@ const App = () => {
               <Route path="/movies" component={Movies} />
               <Route path="/movies/:id" component={Movie} />
               <Route path="/genres" component={Genres} />
+              <Route path="/genre/:id" component={Genre} />
               <Route path="/admin" component={Admin} />
               <Route path="/" component={Home} />
             </Switch>

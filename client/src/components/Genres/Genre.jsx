@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router";
 
 import axios from "axios";
 
-const Genres = () => {
-  const [genres, setGenres] = useState([]);
+const Genre = () => {
+  const { id } = useParams();
+  const location = useLocation();
+
+  const [movies, setMovies] = useState([]);
   const [isLoaded, setLoaded] = useState(true);
   const [error, setError] = useState(null);
+  const [genreName, setGenreName] = useState("");
 
   useEffect(() => {
     setLoaded(false);
-    const genres = axios
-      .get("http://localhost:4000/v1/genres")
+    const movies = axios
+      .get(`http://localhost:4000/v1/movies/${id}`)
       .then((res) => res.data)
       .catch((err) => {
         setError(err);
         setLoaded(false);
       });
-    if (genres) {
-      setGenres(genres);
+    if (movies) {
+      setMovies(movies);
+      setGenreName(location.genreName);
       setLoaded(true);
     }
-  }, []);
+  }, [id, location.genreName]);
 
   return (
     <div>
-      <h2>Genres</h2>
+      <h2>Genre: {genreName}</h2>
 
       {
         <>
@@ -37,19 +43,16 @@ const Genres = () => {
                 <p>{error}</p>
               ) : (
                 <>
-                  <h2>Genres</h2>
+                  <h2>Choose a movie</h2>
 
                   <div className="list-group">
-                    {genres.map((genre) => (
+                    {movies.map((movie) => (
                       <Link
-                        key={genre.id}
+                        key={movie.id}
+                        to={`/movies/${movie.id}`}
                         className="list-group-item list-group-item-action"
-                        to={{
-                          pathname: `/genre/${genre.id}`,
-                          genreName: genre.genre_name,
-                        }}
                       >
-                        {genre.genre_name}
+                        {movie.title}
                       </Link>
                     ))}
                   </div>
@@ -63,4 +66,4 @@ const Genres = () => {
   );
 };
 
-export default Genres;
+export default Genre;
