@@ -10,6 +10,9 @@ import Genre from "./components/Genres/Genre";
 import EditMovie from "./components/Movies/EditMovie";
 import Navigation from "./components/Navigation/Navigation";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./App.scss";
 
 const App = () => {
@@ -37,6 +40,17 @@ const App = () => {
             </Switch>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </Router>
   );

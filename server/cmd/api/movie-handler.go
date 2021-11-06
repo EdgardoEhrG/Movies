@@ -98,9 +98,34 @@ func (app *application) getAllGenres(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) deleteMovie(w http.ResponseWriter, r *http.Request) {}
+func (app *application) deleteMovie(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
 
-func (app *application) addMovie(w http.ResponseWriter, r *http.Request) {}
+	id, err := strconv.Atoi(params.ByName("id"))
+
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.models.DB.DeleteMovie(id)
+
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	ok := jsonResp{
+		OK: true,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, ok, "response")
+
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+}
 
 type MoviePayload struct {
 	ID string `json:"id"`
@@ -125,6 +150,13 @@ func (app *application) editMovie(w http.ResponseWriter, r *http.Request) {
 
 	var movie models.Movie
 
+	if payload.ID != "0" {
+		id, _ := strconv.Atoi(payload.ID)
+		m, _ := app.models.DB.GetOneMovie(id)
+		movie = *m
+		movie.UpdatedAt = time.Now()
+	}
+
 	movie.ID, _ = strconv.Atoi(payload.ID)
 	movie.Title = payload.Title
 	movie.Description = payload.Description
@@ -143,6 +175,13 @@ func (app *application) editMovie(w http.ResponseWriter, r *http.Request) {
 			app.errorJSON(w, err)
 			return
 		}
+	} else {
+		err = app.models.DB.UpdateMovie(movie)
+
+		if err != nil {
+			app.errorJSON(w, err)
+			return
+		}
 	}
 
 	ok := jsonResp{
@@ -156,7 +195,5 @@ func (app *application) editMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-func (app *application) updateMovie(w http.ResponseWriter, r *http.Request) {}
 
 func (app *application) searchMovies(w http.ResponseWriter, r *http.Request) {}

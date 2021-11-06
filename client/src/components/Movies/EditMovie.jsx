@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 import CustomInput from "../components/CustomInput/CustomInput";
 import CustomTextarea from "../CustomTextarea/CustomTextarea";
 import CustomSelect from "../CustomSelect/CustomSelect";
 
 import "./EditMovie.scss";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
+import { toast } from "react-toastify";
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert";
 
 const options = [
   { value: "G", title: "G" },
@@ -20,6 +24,7 @@ const EditMovie = () => {
   const { id } = useParams();
 
   const [movie, setMovie] = useState({
+    id: "",
     title: "",
     release_date: "",
     runtime: "",
@@ -27,23 +32,21 @@ const EditMovie = () => {
     rating: "",
     description: "",
   });
-  const [isLoaded, setLoaded] = useState(true);
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (id) {
-      setLoaded(false);
       const movie = axios
         .get(`http://localhost:4000/v1/movie/${id}`)
         .then((res) => res.data)
         .catch((err) => {
+          toast.error("Smt went wrong...");
           setError(err);
-          setLoaded(false);
         });
       if (movie) {
+        toast.success("The movie was updated");
         setMovie(movie);
-        setLoaded(true);
       }
     }
   }, [id]);
@@ -59,13 +62,52 @@ const EditMovie = () => {
     e.preventDefault();
 
     if (movie.title === "") {
-      setErrors((arr) => [...errors, "title"]);
+      setErrors((arr) => [...arr, "title"]);
     }
 
     const data = new FormData(e.target);
     const payload = JSON.stringify(Object.fromEntries(data.entries()));
 
-    await axios.post("http://localhost:4000/v1/admin/editMovie", payload);
+    const res = await axios.post(
+      "http://localhost:4000/v1/admin/editMovie",
+      payload
+    );
+
+    if (res.status() === 200) {
+      toast.success("A movie was added");
+    } else {
+      toast.error("Smt went wrong...");
+    }
+  };
+
+  const handleDelete = (e) => {
+    confirmAlert({
+      title: "Delete the movie?",
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            axios
+              .delete(`http://localhost:4000/v1/admin/deleteMovie${id}`)
+              .then((res) => {
+                if (res.status === 200) {
+                  toast.success("Movie was deleted");
+                }
+              })
+              .catch((err) => {
+                toast.error(err);
+              });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {
+            //
+          },
+        },
+      ],
+    });
   };
 
   const hasError = (key) => {
@@ -127,6 +169,14 @@ const EditMovie = () => {
         <button className="btn btn-primary" onClick={handleSubmit}>
           Save
         </button>
+        <Link to="/admin" className="btn btn-warning ms-1">
+          Cancel
+        </Link>
+        {movie.id > 0 && (
+          <button className="btn btn-danger ms-1" onClick={handleDelete}>
+            Delete
+          </button>
+        )}
       </form>
     </>
   );

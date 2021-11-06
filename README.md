@@ -10,6 +10,8 @@
 
 ## Useful elements
 
+- [ ] Toasts
+- [ ] Confirm alert
 - [ ] SQL requests
 - [ ] Go routes
 - [ ] CRUD operations
