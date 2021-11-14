@@ -5,11 +5,14 @@ const links = [
   { title: "Home", path: "/" },
   { title: "Movies", path: "/movies" },
   { title: "Genres", path: "/genres" },
+];
+
+const adminLinks = [
   { title: "Admin", path: "/admin" },
   { title: "Add movie", path: "/admin/add" },
 ];
 
-const Navigation = () => {
+const Navigation = ({ jwt }) => {
   return (
     <nav>
       <ul className="list-group">
@@ -18,6 +21,12 @@ const Navigation = () => {
             <Link to={link.path}>{link.title}</Link>
           </li>
         ))}
+        {jwt &&
+          adminLinks.map((link) => (
+            <li key={link.title} className="list-group-item">
+              <Link to={link.path}>{link.title}</Link>
+            </li>
+          ))}
       </ul>
     </nav>
   );

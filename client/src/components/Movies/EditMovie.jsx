@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import CustomInput from "../components/CustomInput/CustomInput";
 import CustomTextarea from "../CustomTextarea/CustomTextarea";
@@ -20,8 +20,9 @@ const options = [
   { value: "NC17", title: "NC17" },
 ];
 
-const EditMovie = () => {
+const EditMovie = ({ jwt }) => {
   const { id } = useParams();
+  const history = useHistory();
 
   const [movie, setMovie] = useState({
     id: "",
@@ -34,6 +35,12 @@ const EditMovie = () => {
   });
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (!jwt) {
+      history.push("/login");
+    }
+  }, [jwt, history]);
 
   useEffect(() => {
     if (id) {
@@ -67,10 +74,14 @@ const EditMovie = () => {
 
     const data = new FormData(e.target);
     const payload = JSON.stringify(Object.fromEntries(data.entries()));
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${jwt}`);
 
     const res = await axios.post(
       "http://localhost:4000/v1/admin/editMovie",
-      payload
+      payload,
+      { headers }
     );
 
     if (res.status() === 200) {

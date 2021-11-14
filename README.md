@@ -12,6 +12,7 @@
 
 - [ ] Toasts
 - [ ] Confirm alert
+- [ ] Auth
 - [ ] SQL requests
 - [ ] Go routes
 - [ ] CRUD operations
