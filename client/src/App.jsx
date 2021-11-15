@@ -9,6 +9,7 @@ import Genres from "./components/Genres/Genres";
 import Genre from "./components/Genres/Genre";
 import EditMovie from "./components/Movies/EditMovie";
 import Login from "./components/Login/Login";
+import GraphQL from "./components/GraphQL/GraphQL";
 import Navigation from "./components/Navigation/Navigation";
 
 import { ToastContainer } from "react-toastify";
@@ -63,6 +64,7 @@ const App = () => {
               <Route exact path="/movies/:id" component={Movie} />
               <Route exact path="/genres" component={Genres} />
               <Route exact path="/genre/:id" component={Genre} />
+              <Route exact path="/graphql" component={GraphQL} />
               <Route exact path="/admin" component={Admin} />
               <Route exact path="/admin/add" component={EditMovie} />
               <Route

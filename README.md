@@ -6,6 +6,8 @@
 
 > Go
 
+> GraphQL
+
 > PostgreSQL
 
 ## Useful elements
@@ -16,3 +18,4 @@
 - [ ] SQL requests
 - [ ] Go routes
 - [ ] CRUD operations
+- [ ] GraphQL queries
